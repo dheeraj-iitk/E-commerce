@@ -1,0 +1,40 @@
+{% extends 'base2.html'%}
+{% block title%} about page{% endblock %}
+{% block body%} 
+<div class="container my-3" >
+<div class="row">
+    <div class="col-md-4">
+        <img src="{{product.0.image.url}}" width="300px" height="300px">
+        <div class="row">
+            <button class="btn btn-primary mx-3 my-3">Buy Now</button>
+            <button class="btn btn-primary my-3">Add To Cart</button>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h2>{{product.0.product_name}}</h2>
+        <h4><b>price {{product.0.price}}</b></h4>
+        <p>{{product.0.desc}}</p>
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block js%}
+    <script>
+       
+        if(localStorage.getItem('cart')==null){ var cart ={};} // basically local storage is  a dict and cart is also a dict-->
+        else{
+             cart=JSON.parse(localStorage.getItem('cart'));
+        document.getElementById('cart').innerHTML=Object.keys(cart).length;
+        }
+        $('.cart').click(function(){
+            var idstr=this.id.toString();
+            if(cart[idstr]!=undefined){ cart[idstr]=cart[idstr]+1; }
+            else { cart[idstr]=1; }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            console.log(cart)
+            document.getElementById('cart').innerHTML = Object.keys(cart).length;
+        })
+        $('#popcart').popover();
+        document.getElementById('popcart').setAttribute('data-content','<h5>Cart</h5>')
+    </script>
+    {%endblock%}
